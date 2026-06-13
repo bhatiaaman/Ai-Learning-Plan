@@ -119,13 +119,26 @@
 
 <script>
 const M=[
- {n:1,c:"blue",wk:"Weeks 1\u20132",t:"Foundations & prompt engineering",
-  goal:"Build an accurate mental model of LLMs (context, hallucination, cost, temperature) and learn structured prompting via the API.",
+ {n:1,c:"blue",wk:"Weeks 1\u20132",t:"Foundations, prompt engineering & AI governance",
+  goal:"Build an accurate mental model of how LLMs actually work (tokens, context, why hallucination happens), learn structured prompting via the API, and learn the AI governance landscape so you can apply a risk lens to every project from here on.",
+  resLabel:"Foundations \u2014 how LLMs actually work",
   res:[
+   {ty:"article",t:"How LLMs Work, Explained Without Math",m:"Article \u00b7 the best plain-language mental model",u:"https://blog.miguelgrinberg.com/post/how-llms-work-explained-without-math"},
+   {ty:"article",t:"Tokens and Context Windows in LLMs (GeeksforGeeks)",m:"Article \u00b7 tokens, context limits, why they matter for cost",u:"https://www.geeksforgeeks.org/artificial-intelligence/tokens-and-context-windows-in-llms/"}
+  ],
+  res2Label:"Prompt engineering",
+  res2:[
    {ty:"course",t:"Anthropic \u2014 Interactive Prompt Engineering Tutorial (9 chapters)",m:"Free \u00b7 hands-on \u00b7 the gold standard",u:"https://github.com/anthropics/prompt-eng-interactive-tutorial"},
    {ty:"course",t:"DeepLearning.AI \u2014 ChatGPT Prompt Engineering for Developers",m:"Free \u00b7 ~1.5 hrs",u:"https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/"},
    {ty:"article",t:"Google \u2014 Prompt Engineering whitepaper",m:"Article \u00b7 deep but readable",u:"https://www.kaggle.com/whitepaper-prompt-engineering"},
    {ty:"docs",t:"Anthropic \u2014 Prompt engineering overview (docs)",m:"Reference \u00b7 keep open while building",u:"https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview"}
+  ],
+  govLabel:"AI Governance Landscape \u2014 the map you'll apply all 14 weeks",
+  govIntro:"Every project from here on includes a short Governance checkpoint. These three sources give you the vocabulary and frameworks those checkpoints draw on \u2014 read once now, apply repeatedly.",
+  gov:[
+   {ty:"docs",t:"NIST AI Risk Management Framework (official)",m:"Reference \u00b7 the Govern/Map/Measure/Manage vocabulary used throughout",u:"https://www.nist.gov/itl/ai-risk-management-framework"},
+   {ty:"article",t:"AI Risk Assessment for the EU AI Act \u2014 the four risk tiers",m:"Article \u00b7 unacceptable / high / limited / minimal risk, explained",u:"https://visioncompliance.eu/en/blog/ai-risk-assessment-guide"},
+   {ty:"article",t:"Anthropic Transparency Hub \u2014 Responsible Scaling Policy",m:"Article \u00b7 what governance looks like in practice at an AI lab",u:"https://www.anthropic.com/transparency"}
   ],
   projTitle:"PRD generator from a feature idea",
   projLead:"A Python script that takes a one-line feature idea and returns a structured PRD (problem, target users, acceptance criteria, risks, success metrics) \u2014 with a versioned, reusable prompt template.",
@@ -139,7 +152,8 @@ const M=[
    "Run it on 3 real backlog items. For each, note in a <code>FINDINGS.md</code> where the output was wrong, vague, or invented requirements (this becomes your eval material in Module 5)."
   ],
   code:"import os\nfrom anthropic import Anthropic\nfrom dotenv import load_dotenv\n\nload_dotenv()\nclient = Anthropic(api_key=os.environ[\"ANTHROPIC_API_KEY\"])\n\nSYSTEM = open(\"prompts/prd_v1.txt\").read()\n\ndef generate_prd(idea: str) -> str:\n    msg = client.messages.create(\n        model=\"claude-sonnet-4-6\",\n        max_tokens=1500,\n        system=SYSTEM,\n        messages=[{\"role\": \"user\", \"content\": idea}],\n    )\n    return msg.content[0].text\n\nif __name__ == \"__main__\":\n    print(generate_prd(\"A dashboard so PMs can see at-risk epics\"))",
-  dod:"You can hand someone a one-line idea and get a consistent, well-structured PRD in seconds, the prompt lives in a versioned file, and FINDINGS.md lists at least 5 concrete failure cases."},
+  dod:"You can hand someone a one-line idea and get a consistent, well-structured PRD in seconds, the prompt lives in a versioned file, and FINDINGS.md lists at least 5 concrete failure cases.",
+  govCheckpoint:"Using the EU AI Act's four tiers from the Governance Landscape resources above, classify this PRD generator: what risk tier would it sit in, and why? (Hint: it's advisory, not autonomous \u2014 a human reads and approves every PRD before it's used. Write 2-3 sentences in your README.)"},
 
  {n:2,c:"teal",wk:"Weeks 3\u20134",t:"AI-in-the-loop workflows",
   goal:"Map where AI can draft, summarize, route or decide inside your PM processes, with a human reviewing instead of starting from zero.",
@@ -161,7 +175,8 @@ const M=[
    "Track metrics in a log: time-to-draft vs your old manual time, and how many edits you had to make. That edit count is an early eval signal."
   ],
   code:"import pandas as pd\nfrom anthropic import Anthropic\nimport os; from dotenv import load_dotenv\nload_dotenv(); client = Anthropic()\n\ndef jira_to_text(csv_path):\n    df = pd.read_csv(csv_path)\n    cols = [\"key\",\"summary\",\"status\",\"assignee\",\"due_date\"]\n    return df[cols].to_string(index=False)\n\ndef draft_status(notes, csv_path):\n    context = jira_to_text(csv_path)\n    prompt = f\"Standup notes:\\n{notes}\\n\\nJira board:\\n{context}\\n\\nWrite an exec status update with a Risks section.\"\n    msg = client.messages.create(model=\"claude-sonnet-4-6\",\n        max_tokens=1200, messages=[{\"role\":\"user\",\"content\":prompt}])\n    return msg.content[0].text",
-  dod:"Drop in notes + a CSV, get a usable draft you lightly edit, the human-review step is enforced in the UI, and you've logged time saved on at least 2 real weekly reports."},
+  dod:"Drop in notes + a CSV, get a usable draft you lightly edit, the human-review step is enforced in the UI, and you've logged time saved on at least 2 real weekly reports.",
+  govCheckpoint:"Your Streamlit review step is a human-oversight control in the NIST AI RMF sense (the 'Manage' function). Write 1-2 sentences: what would go wrong if this draft were sent automatically without that review step, and who would be accountable if it did?"},
 
  {n:3,c:"purple",wk:"Weeks 5\u20137",t:"RAG \u2014 grounding AI in your data",
   goal:"Understand why LLMs don't know your private data, and build retrieval that grounds answers in your docs with citations.",
@@ -183,7 +198,8 @@ const M=[
    "Deliberately ask a question your docs can't answer, and confirm it says 'not found' rather than hallucinating. Log every case where retrieval pulled the wrong chunk \u2014 that's your RAG eval set."
   ],
   code:"from langchain_community.document_loaders import DirectoryLoader\nfrom langchain.text_splitter import RecursiveCharacterTextSplitter\nfrom langchain_community.vectorstores import Chroma\n# embeddings + LLM wiring per the DeepLearning.AI course\n\ndocs = DirectoryLoader(\"docs/\").load()\nchunks = RecursiveCharacterTextSplitter(\n    chunk_size=800, chunk_overlap=100).split_documents(docs)\n\ndb = Chroma.from_documents(chunks, embedding=EMB, persist_directory=\"./db\")\n\ndef ask(q, k=4):\n    hits = db.similarity_search(q, k=k)\n    context = \"\\n\\n\".join(f\"[{h.metadata['source']}] {h.page_content}\" for h in hits)\n    # send context + q to the LLM, instruct it to cite sources\n    return answer_with_citations(q, context)",
-  dod:"Real questions over your own docs return correct, cited answers; out-of-scope questions are refused rather than fabricated; and you have a logged list of retrieval failures with the wrong chunk identified."},
+  dod:"Real questions over your own docs return correct, cited answers; out-of-scope questions are refused rather than fabricated; and you have a logged list of retrieval failures with the wrong chunk identified.",
+  govCheckpoint:"This system ingests real project documents \u2014 potentially including names, performance comments, or client-sensitive details. Under a data-governance lens: what sensitivity classification would you give these docs, and what's one access-control or redaction step you'd add before pointing this at a shared company drive instead of your own files?"},
 
  {n:4,c:"coral",wk:"Weeks 8\u201310",t:"AI agents & automation",
   goal:"Agents plan, use tools and run multi-step goals. Learn single- vs multi-agent patterns, tool orchestration, and when NOT to use an agent.",
@@ -205,7 +221,8 @@ const M=[
    "Write a short note in your repo on a case where an agent was overkill and a single prompt would've done \u2014 senior judgment, and a common interview question."
   ],
   code:"# Tools the agent can call (kept simple + testable)\ndef categorize(text: str) -> dict:\n    # LLM call returns {category, confidence}\n    ...\n\ndef triage(items: list[str]):\n    results, escalate = [], []\n    for it in items:\n        r = categorize(it)\n        if r[\"confidence\"] < 0.6:\n            escalate.append(it)        # guardrail: hand to human\n        else:\n            results.append({**r, \"text\": it})\n    return results, escalate",
-  dod:"A batch of feedback comes out clustered, tagged and prioritized into a clean table; low-confidence items are escalated, not guessed; and your repo explains one case where an agent was the wrong tool."},
+  dod:"A batch of feedback comes out clustered, tagged and prioritized into a clean table; low-confidence items are escalated, not guessed; and your repo explains one case where an agent was the wrong tool.",
+  govCheckpoint:"Your confidence-threshold escalation rule is a concrete implementation of 'human oversight' \u2014 a requirement for higher-risk AI systems under the EU AI Act. Write 2-3 sentences: what confidence threshold did you choose, why, and what's the cost of setting it too low (over-automation) vs too high (escalation overload)?"},
 
  {n:5,c:"amber",wk:"Weeks 11\u201312",t:"AI evals \u2014 the senior differentiator",
   goal:"Measure whether AI output is actually good: rubrics, edge-case sets, and LLM-as-judge. The skill that separates juniors from seniors.",
@@ -227,7 +244,8 @@ const M=[
    "Change your Module 1 prompt slightly and re-run \u2014 watch the score move. Document one regression the suite caught that you'd have missed by eye."
   ],
   code:"import json\nfrom anthropic import Anthropic\nclient = Anthropic()\n\nRUBRIC = [\"Has all 5 sections\", \"No invented requirements\",\n          \"Acceptance criteria are measurable\"]\n\ndef judge(output: str) -> dict:\n    prompt = (f\"Score this PRD against each criterion as pass/fail. \"\n              f\"Return JSON only.\\nCriteria: {RUBRIC}\\n\\nPRD:\\n{output}\")\n    r = client.messages.create(model=\"claude-sonnet-4-6\",\n        max_tokens=400, messages=[{\"role\":\"user\",\"content\":prompt}])\n    return json.loads(r.content[0].text)\n\n# test_prd.py  ->  run with: pytest\ndef test_pass_rate():\n    scores = [judge(generate_prd(c)) for c in CASES]\n    rate = pass_fraction(scores)\n    assert rate >= 0.8",
-  dod:"<code>pytest</code> runs a 20-case suite for two of your tools, returns a pass rate, gates on a threshold, and you can point to one regression the suite caught after a prompt change."},
+  dod:"<code>pytest</code> runs a 20-case suite for two of your tools, returns a pass rate, gates on a threshold, and you can point to one regression the suite caught after a prompt change.",
+  govCheckpoint:"An eval suite with a pass-rate gate is literally the 'Measure' function from the NIST AI RMF \u2014 turning 'is this AI output good?' from a vibe into a number. Write 2-3 sentences: what pass-rate threshold did you set, what happens (in a real org) if a release fails the gate, and who would own the decision to override it?"},
 
  {n:6,c:"pink",wk:"Weeks 13\u201314",t:"Packaging, economics & the pivot",
   goal:"Token-cost-aware decisions, responsible-AI tradeoffs, and turning four projects into a portfolio and a sharp interview narrative.",
@@ -249,23 +267,31 @@ const M=[
    "Update your LinkedIn and resume with the project links and the keywords from the recruiter article."
   ],
   code:"# Suggested repo layout for your portfolio\nai-portfolio/\n  index.html            # links to all four, role-framed\n  prd-generator/        # Module 1\n    README.md           # problem -> approach -> tradeoffs -> impact\n  status-reporter/      # Module 2\n  knowledge-assistant/  # Module 3 (RAG)\n  feedback-triage/      # Module 4 (agent)\n  evals/                # Module 5 (cross-cutting)",
-  dod:"A public portfolio page links four working projects each with a results-focused README; you can deliver a 3-minute walkthrough of any one from memory; and your LinkedIn/resume reflect the new positioning."}
+  dod:"A public portfolio page links four working projects each with a results-focused README; you can deliver a 3-minute walkthrough of any one from memory; and your LinkedIn/resume reflect the new positioning.",
+  govCheckpoint:"Step back across all four projects: pick the one you'd classify as highest-risk under the EU AI Act tiers, and write a short 'Governance Summary' paragraph for your portfolio page explaining how its design (human review, escalation, eval gate, access controls) addresses that risk. This single paragraph is a strong differentiator in interviews \u2014 most candidates never mention governance at all."}
 ];
 
-let TOTAL=0; M.forEach(m=>TOTAL+=m.res.length+1);
-const KEY="aiPmPlan14wk_v2";
+function allRes(m){
+ // Flattens res + res2 + gov (if present) into one array with sequential keys r0, r1, ...
+ const groups=[m.res||[], m.res2||[], m.gov||[]];
+ const out=[];
+ groups.forEach(g=>g.forEach(x=>out.push(x)));
+ return out;
+}
+let TOTAL=0; M.forEach(m=>TOTAL+=allRes(m).length+1);
+const KEY="aiPmPlan14wk_v3";
 let done={}; try{done=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){done={}}
 let active=1;
 
 function save(){try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}}
 function rid(mi,k){return mi+":"+k}
-function moduleCount(m){let c=0;for(let i=0;i<m.res.length;i++)if(done[rid(m.n,'r'+i)])c++;if(done[rid(m.n,'proj')])c++;return c;}
+function moduleCount(m){const all=allRes(m);let c=0;for(let i=0;i<all.length;i++)if(done[rid(m.n,'r'+i)])c++;if(done[rid(m.n,'proj')])c++;return c;}
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 function renderTabs(){
  const r=document.getElementById('tabs');r.innerHTML='';
  M.forEach(m=>{
-  const dn=m.res.length+1, c=moduleCount(m);
+  const dn=allRes(m).length+1, c=moduleCount(m);
   const b=document.createElement('button');
   b.className='tab'+(active===m.n?' active':'');
   b.textContent='M'+m.n+' \u00b7 '+(c===dn?'\u2713':c+'/'+dn);
@@ -274,26 +300,50 @@ function renderTabs(){
   r.appendChild(b);
  });
 }
+function resBlock(m, idxRef){
+ // Renders one group of resources (array), advancing idxRef.i for each item.
+ return function(group){
+  let h='';
+  group.forEach(x=>{
+   const i=idxRef.i++;
+   const ck=done[rid(m.n,'r'+i)]?'checked':'';
+   h+='<div class="res"><input type="checkbox" '+ck+' onchange="mark('+m.n+',\'r'+i+'\',this.checked)">'+
+       '<div style="flex:1"><a href="'+x.u+'" target="_blank" rel="noopener">'+x.t+'</a>'+
+       '<span class="ty">'+x.ty+'</span><span class="meta">'+x.m+'</span></div></div>';
+  });
+  return h;
+ };
+}
 function render(){
  renderTabs();
  const box=document.getElementById('mods');box.innerHTML='';
  const m=M.find(x=>x.n===active);
  const bg='var(--'+m.c+'-bg)', fg='var(--'+m.c+')';
- let rh='';
- m.res.forEach((x,i)=>{
-  const ck=done[rid(m.n,'r'+i)]?'checked':'';
-  rh+='<div class="res"><input type="checkbox" '+ck+' onchange="mark('+m.n+',\'r'+i+'\',this.checked)">'+
-      '<div style="flex:1"><a href="'+x.u+'" target="_blank" rel="noopener">'+x.t+'</a>'+
-      '<span class="ty">'+x.ty+'</span><span class="meta">'+x.m+'</span></div></div>';
- });
+ const idxRef={i:0};
+ const renderGroup=resBlock(m, idxRef);
+ let resHtml='';
+ if(m.res2){
+  // Module has split groups: res = Foundations, res2 = main topic, gov = governance
+  resHtml += '<div class="sec-lbl">'+(m.resLabel||'Resources')+'</div>' + renderGroup(m.res);
+  resHtml += '<div class="sec-lbl">'+(m.res2Label||'Resources')+'</div>' + renderGroup(m.res2);
+  if(m.gov){
+   resHtml += '<div class="sec-lbl">'+m.govLabel+'</div>';
+   if(m.govIntro) resHtml += '<p style="font-size:13px;color:var(--muted);margin:0 0 8px">'+m.govIntro+'</p>';
+   resHtml += renderGroup(m.gov);
+  }
+ } else {
+  resHtml += '<div class="sec-lbl">Tutorials, videos & articles</div>' + renderGroup(m.res);
+ }
  let stepsHtml=''; m.steps.forEach(s=>stepsHtml+='<li>'+s+'</li>');
  const pk=done[rid(m.n,'proj')]?'checked':'';
+ const govBox = m.govCheckpoint ?
+   '<div class="dod" style="border-left-color:'+fg+';margin-top:10px"><div class="dl">Governance checkpoint</div><p>'+m.govCheckpoint+'</p></div>' : '';
  const card=document.createElement('div');card.className='mod';
  card.innerHTML=
   '<div class="mh"><div class="mn" style="background:'+bg+';color:'+fg+'">'+m.n+'</div>'+
   '<div style="flex:1"><div class="mtitle-row"><span class="mtitle">'+m.t+'</span><span class="wk">'+m.wk+'</span></div>'+
   '<p class="goal">'+m.goal+'</p></div></div>'+
-  '<div class="sec-lbl">Tutorials, videos & articles</div>'+rh+
+  resHtml+
   '<div class="proj">'+
     '<div class="proj-head"><span style="color:'+fg+'">\u25b6</span><span class="ph-title">Mini-project: '+m.projTitle+'</span></div>'+
     '<div class="proj-body">'+
@@ -304,6 +354,7 @@ function render(){
       '<div class="build-lbl">Starter code</div>'+
       '<pre><code>'+esc(m.code)+'</code></pre>'+
       '<div class="dod" style="border-left-color:'+fg+'"><div class="dl">Definition of done</div><p>'+m.dod+'</p></div>'+
+      govBox+
       '<label class="chk"><input type="checkbox" '+pk+' onchange="mark('+m.n+',\'proj\',this.checked)"> Mark project complete</label>'+
     '</div>'+
   '</div>';
@@ -320,9 +371,11 @@ function resetAll(){if(confirm('Clear all progress?')){done={};save();render();}
 function exportProgress(){
  let lines=['AI PM Learning Plan \u2014 progress export',''];
  M.forEach(m=>{
-  lines.push('Module '+m.n+': '+m.t+' ('+moduleCount(m)+'/'+(m.res.length+1)+')');
-  m.res.forEach((x,i)=>lines.push('  ['+(done[rid(m.n,'r'+i)]?'x':' ')+'] '+x.t));
+  const all=allRes(m);
+  lines.push('Module '+m.n+': '+m.t+' ('+moduleCount(m)+'/'+(all.length+1)+')');
+  all.forEach((x,i)=>lines.push('  ['+(done[rid(m.n,'r'+i)]?'x':' ')+'] '+x.t));
   lines.push('  ['+(done[rid(m.n,'proj')]?'x':' ')+'] PROJECT: '+m.projTitle);
+  if(m.govCheckpoint) lines.push('       Governance checkpoint: '+m.govCheckpoint);
   lines.push('');
  });
  const blob=new Blob([lines.join('\n')],{type:'text/plain'});
