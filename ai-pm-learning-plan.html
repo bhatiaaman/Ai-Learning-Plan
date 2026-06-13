@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Program Manager — 14-Week Learning Plan</title>
+<style>
+  :root{
+    --bg:#faf9f5; --card:#ffffff; --ink:#1a1a18; --muted:#6b6a64; --hint:#9a988f;
+    --line:rgba(0,0,0,.12); --line2:rgba(0,0,0,.22);
+    --info:#185fa5; --info-bg:#e6f1fb; --accent:#185fa5;
+    --r-md:8px; --r-lg:12px;
+    --blue:#185fa5; --blue-bg:#e6f1fb;
+    --teal:#0f6e56; --teal-bg:#e1f5ee;
+    --purple:#534ab7; --purple-bg:#eeedfe;
+    --coral:#993c1d; --coral-bg:#faece7;
+    --amber:#854f0b; --amber-bg:#faeeda;
+    --pink:#993556; --pink-bg:#fbeaf0;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#1f1e1c; --card:#2a2927; --ink:#f2f0ea; --muted:#b0aea6; --hint:#807e76;
+      --line:rgba(255,255,255,.14); --line2:rgba(255,255,255,.26);
+      --info:#85b7eb; --info-bg:#0c447c;
+      --blue:#85b7eb; --blue-bg:#0c447c;
+      --teal:#5dcaa5; --teal-bg:#085041;
+      --purple:#afa9ec; --purple-bg:#3c3489;
+      --coral:#f0997b; --coral-bg:#712b13;
+      --amber:#ef9f27; --amber-bg:#633806;
+      --pink:#ed93b1; --pink-bg:#72243e;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:32px 20px 80px}
+  header h1{font-size:24px;font-weight:600;margin:0 0 4px}
+  header p{color:var(--muted);font-size:15px;margin:0 0 24px}
+  .progress-label{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;color:var(--muted);margin-bottom:6px}
+  #pct{font-weight:600;color:var(--ink)}
+  .bar-track{height:8px;background:var(--card);border:0.5px solid var(--line);border-radius:99px;overflow:hidden;margin-bottom:22px}
+  #bar{height:100%;width:0%;background:var(--accent);transition:width .3s}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px}
+  .tab{font-size:13px;padding:6px 12px;border:0.5px solid var(--line);border-radius:99px;background:transparent;color:var(--muted);cursor:pointer;font-family:inherit}
+  .tab.active{border-color:var(--info);background:var(--info-bg);color:var(--info);font-weight:600}
+  .mod{background:var(--card);border:0.5px solid var(--line);border-radius:var(--r-lg);padding:18px 22px}
+  .mh{display:flex;align-items:flex-start;gap:12px}
+  .mn{width:36px;height:36px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px}
+  .mtitle-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .mtitle{font-size:17px;font-weight:600}
+  .wk{font-size:12px;color:var(--hint);white-space:nowrap}
+  .goal{font-size:14px;color:var(--muted);margin:6px 0 0}
+  .sec-lbl{font-size:11px;color:var(--hint);text-transform:uppercase;letter-spacing:.05em;margin:18px 0 6px}
+  .res{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--line)}
+  .res:last-of-type{border-bottom:none}
+  .res input{width:17px;height:17px;margin-top:3px;cursor:pointer;flex-shrink:0;accent-color:var(--accent)}
+  .res a{font-size:14px;color:var(--info);text-decoration:none}
+  .res a:hover{text-decoration:underline}
+  .meta{font-size:12px;color:var(--hint);display:block;margin-top:1px}
+  .ty{font-size:10px;text-transform:uppercase;letter-spacing:.04em;padding:1px 6px;border-radius:99px;border:0.5px solid var(--line2);color:var(--muted);margin-left:6px;white-space:nowrap}
+  .proj{background:var(--bg);border:0.5px solid var(--line);border-radius:var(--r-md);padding:13px 15px;margin-top:16px}
+  .proj-h{font-size:13px;font-weight:600}
+  .proj p{font-size:14px;margin:6px 0 0}
+  .chk{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);margin-top:11px;cursor:pointer;user-select:none}
+  .chk input{width:17px;height:17px;cursor:pointer;accent-color:var(--accent)}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+  .btn{font-size:13px;padding:8px 14px;border:0.5px solid var(--line2);border-radius:var(--r-md);background:transparent;color:var(--ink);cursor:pointer;font-family:inherit}
+  .btn:hover{background:var(--card)}
+  footer{margin-top:28px;font-size:12px;color:var(--hint);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>AI Program Manager — 14-week learning plan</h1>
+    <p>Use-case-based path from senior Agile/program management to an AI PM-adjacent role. All links are free. Progress saves in this browser.</p>
+  </header>
+
+  <div class="progress-label"><span>Overall progress</span><span id="pct">0%</span></div>
+  <div class="bar-track"><div id="bar"></div></div>
+
+  <div class="tabs" id="tabs"></div>
+  <div id="mods"></div>
+
+  <div class="actions">
+    <button class="btn" onclick="resetAll()">↻ Reset progress</button>
+    <button class="btn" onclick="exportProgress()">⤓ Export progress</button>
+  </div>
+
+  <footer>Self-contained · works offline once loaded · no tracking · your ticks live only in this browser.</footer>
+</div>
+
+<script>
+const M=[
+ {n:1,c:"blue",wk:"Weeks 1\u20132",t:"Foundations & prompt engineering",
+  goal:"Build an accurate mental model of LLMs (context, hallucination, cost, temperature) and learn structured prompting.",
+  res:[
+   {ty:"course",t:"Anthropic \u2014 Interactive Prompt Engineering Tutorial (9 chapters)",m:"Free \u00b7 hands-on \u00b7 the gold standard",u:"https://github.com/anthropics/prompt-eng-interactive-tutorial"},
+   {ty:"course",t:"DeepLearning.AI \u2014 ChatGPT Prompt Engineering for Developers",m:"Free \u00b7 ~1.5 hrs \u00b7 Andrew Ng + OpenAI",u:"https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/"},
+   {ty:"article",t:"Google \u2014 Prompt Engineering whitepaper (Lee Boonstra)",m:"Article \u00b7 deep but readable",u:"https://www.kaggle.com/whitepaper-prompt-engineering"},
+   {ty:"docs",t:"Anthropic \u2014 Prompt engineering overview (docs)",m:"Reference \u00b7 keep open while you build",u:"https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview"}
+  ],
+  proj:"Build a reusable prompt library that turns a rough feature idea into a structured PRD (problem, users, acceptance criteria, risks). Run it on 3 real backlog items and note where it fails."},
+ {n:2,c:"teal",wk:"Weeks 3\u20134",t:"AI-in-the-loop workflows",
+  goal:"Map where AI can draft, summarize, route or decide inside your existing PM processes, with humans reviewing instead of starting from zero.",
+  res:[
+   {ty:"video",t:"Andrew Ng \u2014 agentic workflows / applied AI talk",m:"Video \u00b7 framing for applied AI",u:"https://www.youtube.com/watch?v=4pYzYmSdSH4"},
+   {ty:"article",t:"Product School \u2014 Guide to the AI Product Manager",m:"Article \u00b7 role expectations in 2026",u:"https://productschool.com/blog/artificial-intelligence/guide-ai-product-manager"},
+   {ty:"course",t:"DeepLearning.AI \u2014 AI for Everyone (Andrew Ng)",m:"Free \u00b7 business-outcome lens",u:"https://www.deeplearning.ai/courses/ai-for-everyone/"},
+   {ty:"practice",t:"Build it in Claude / ChatGPT directly \u2014 no code needed",m:"Practice \u00b7 use your own standup notes",u:"https://claude.ai"}
+  ],
+  proj:"Redesign your weekly status-report process as AI-in-the-loop: feed standup notes + a Jira export, get a draft exec summary with risks flagged. Measure time saved and error rate vs doing it manually."},
+ {n:3,c:"purple",wk:"Weeks 5\u20137",t:"RAG \u2014 grounding AI in your data",
+  goal:"Understand why LLMs don't know your private data, and how retrieval grounds answers in your docs with citations. Learn RAG vs fine-tuning vs prompting.",
+  res:[
+   {ty:"course",t:"DeepLearning.AI \u2014 LangChain: Chat with Your Data",m:"Free \u00b7 loaders, chunking, vector stores, retrieval",u:"https://www.deeplearning.ai/short-courses/langchain-chat-with-your-data/"},
+   {ty:"course",t:"DeepLearning.AI \u2014 Building & Evaluating Advanced RAG",m:"Free \u00b7 sentence-window, auto-merging, eval",u:"https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/"},
+   {ty:"article",t:"7 free RAG courses round-up (agentic, multimodal, KG)",m:"Article \u00b7 pick one deeper dive",u:"https://www.turingpost.com/p/7-free-courses-to-master-rag"},
+   {ty:"article",t:"AI PM interview Q&A \u2014 RAG vs fine-tuning vs prompting",m:"Article \u00b7 how to talk about it",u:"https://www.institutepm.com/knowledge-hub/ai-product-manager-interview-questions"}
+  ],
+  proj:"Build a 'project knowledge assistant' over your own docs (charters, retros, risk registers) that answers 'what blockers recurred last quarter?' with citations. Document where retrieval pulls the wrong context."},
+ {n:4,c:"coral",wk:"Weeks 8\u201310",t:"AI agents & automation",
+  goal:"Agents plan, use tools and execute multi-step goals. Learn single- vs multi-agent patterns, tool orchestration, and \u2014 crucially \u2014 when NOT to use an agent.",
+  res:[
+   {ty:"course",t:"DeepLearning.AI \u2014 AI Agents in LangGraph (Harrison Chase)",m:"Free \u00b7 build an agent from scratch",u:"https://www.deeplearning.ai/short-courses/ai-agents-in-langgraph/"},
+   {ty:"course",t:"DeepLearning.AI \u2014 Multi AI Agent Systems with crewAI",m:"Free \u00b7 roles, delegation, orchestration",u:"https://www.deeplearning.ai/short-courses/multi-ai-agent-systems-with-crewai/"},
+   {ty:"article",t:"Anthropic \u2014 Building effective agents",m:"Article \u00b7 patterns & when to keep it simple",u:"https://www.anthropic.com/research/building-effective-agents"},
+   {ty:"docs",t:"Anthropic \u2014 Tool use (function calling) docs",m:"Reference \u00b7 how agents act",u:"https://docs.claude.com/en/docs/build-with-claude/tool-use"}
+  ],
+  proj:"Build an agent that triages incoming feature requests/feedback: clusters them, tags by theme, drafts a prioritization view. Define explicit guardrails and escalation-to-human rules."},
+ {n:5,c:"amber",wk:"Weeks 11\u201312",t:"AI evals \u2014 the senior differentiator",
+  goal:"Know how to tell if an AI output is actually good: rubrics, edge-case sets, benchmarks, and LLM-as-judge. The skill that separates juniors from seniors.",
+  res:[
+   {ty:"course",t:"Anthropic \u2014 Prompt Evaluations course",m:"Free \u00b7 production-grade eval writing",u:"https://github.com/anthropics/courses/tree/master/prompt_evaluations"},
+   {ty:"article",t:"AI PM Skill & Roadmap 2026 \u2014 why evals are the bottleneck",m:"Article \u00b7 the senior framing",u:"https://medium.com/agileinsider/ai-product-manager-skill-roadmap-2026-5896f61c3cae"},
+   {ty:"docs",t:"Anthropic \u2014 Develop tests / define success criteria",m:"Reference \u00b7 build a test set",u:"https://docs.claude.com/en/docs/test-and-evaluate/develop-tests"},
+   {ty:"practice",t:"Apply it: write evals for your Module 1 & 3 projects",m:"Practice \u00b7 reuse what you built",u:"https://claude.ai"}
+  ],
+  proj:"Write an eval suite for your PRD generator (M1) and knowledge assistant (M3): define a rubric, build a 20-case test set, gate 'release' on a passing score. Document one real failure you caught."},
+ {n:6,c:"pink",wk:"Weeks 13\u201314",t:"Packaging, economics & the pivot",
+  goal:"Token-cost-aware decisions, responsible-AI tradeoffs, and turning four projects into a portfolio and a sharp interview narrative.",
+  res:[
+   {ty:"article",t:"50+ AI PM interview questions & answers (2026)",m:"Article \u00b7 drill these",u:"https://www.institutepm.com/knowledge-hub/ai-product-manager-interview-questions"},
+   {ty:"article",t:"Ultimate 2026 roadmap to becoming an AI PM",m:"Article \u00b7 portfolio & positioning",u:"https://thedigilearners.com/blogs/ultimate-2026-roadmap-becoming-ai-product-manager/"},
+   {ty:"article",t:"AI skills recruiters look for in 2026",m:"Article \u00b7 resume keywords",u:"https://agilemania.com/ai-skills-for-resume"},
+   {ty:"practice",t:"Publish your portfolio free \u2014 GitHub Pages or Notion",m:"Practice \u00b7 one page, four projects",u:"https://pages.github.com/"}
+  ],
+  proj:"Assemble a portfolio page: each project as problem \u2192 approach \u2192 tradeoffs \u2192 measured impact. Write the 3-minute spoken version and rehearse system-design questions out loud."}
+];
+
+let TOTAL=0; M.forEach(m=>TOTAL+=m.res.length+1);
+const KEY="aiPmPlan14wk_v1";
+let done={}; try{done=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){done={}}
+let active=1;
+
+function save(){try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}}
+function rid(mi,k){return mi+":"+k}
+function moduleCount(m){let c=0;for(let i=0;i<m.res.length;i++)if(done[rid(m.n,'r'+i)])c++;if(done[rid(m.n,'proj')])c++;return c;}
+
+function renderTabs(){
+ const r=document.getElementById('tabs');r.innerHTML='';
+ M.forEach(m=>{
+  const dn=m.res.length+1, c=moduleCount(m);
+  const b=document.createElement('button');
+  b.className='tab'+(active===m.n?' active':'');
+  b.textContent='M'+m.n+' \u00b7 '+(c===dn?'\u2713':c+'/'+dn);
+  b.title=m.t;
+  b.onclick=()=>{active=m.n;render();};
+  r.appendChild(b);
+ });
+}
+function render(){
+ renderTabs();
+ const box=document.getElementById('mods');box.innerHTML='';
+ const m=M.find(x=>x.n===active);
+ const bg='var(--'+m.c+'-bg)', fg='var(--'+m.c+')';
+ let rh='';
+ m.res.forEach((x,i)=>{
+  const ck=done[rid(m.n,'r'+i)]?'checked':'';
+  rh+='<div class="res"><input type="checkbox" '+ck+' onchange="mark('+m.n+',\'r'+i+'\',this.checked)">'+
+      '<div style="flex:1"><a href="'+x.u+'" target="_blank" rel="noopener">'+x.t+'</a>'+
+      '<span class="ty">'+x.ty+'</span><span class="meta">'+x.m+'</span></div></div>';
+ });
+ const pk=done[rid(m.n,'proj')]?'checked':'';
+ const card=document.createElement('div');card.className='mod';
+ card.innerHTML=
+  '<div class="mh"><div class="mn" style="background:'+bg+';color:'+fg+'">'+m.n+'</div>'+
+  '<div style="flex:1"><div class="mtitle-row"><span class="mtitle">'+m.t+'</span><span class="wk">'+m.wk+'</span></div>'+
+  '<p class="goal">'+m.goal+'</p></div></div>'+
+  '<div class="sec-lbl">Tutorials, videos & articles</div>'+rh+
+  '<div class="proj"><div class="proj-h">\u25b6 Mini-project</div><p>'+m.proj+'</p>'+
+  '<label class="chk"><input type="checkbox" '+pk+' onchange="mark('+m.n+',\'proj\',this.checked)"> Mark project complete</label></div>';
+ box.appendChild(card);
+ update();
+}
+function mark(mi,k,v){if(v)done[rid(mi,k)]=1;else delete done[rid(mi,k)];save();render();}
+function update(){
+ const c=Object.keys(done).length,p=Math.round(c/TOTAL*100);
+ document.getElementById('bar').style.width=p+'%';
+ document.getElementById('pct').textContent=p+'%';
+}
+function resetAll(){if(confirm('Clear all progress?')){done={};save();render();}}
+function exportProgress(){
+ let lines=['AI PM Learning Plan \u2014 progress export',''];
+ M.forEach(m=>{
+  lines.push('Module '+m.n+': '+m.t+' ('+moduleCount(m)+'/'+(m.res.length+1)+')');
+  m.res.forEach((x,i)=>lines.push('  ['+(done[rid(m.n,'r'+i)]?'x':' ')+'] '+x.t));
+  lines.push('  ['+(done[rid(m.n,'proj')]?'x':' ')+'] PROJECT: '+m.proj);
+  lines.push('');
+ });
+ const blob=new Blob([lines.join('\n')],{type:'text/plain'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+ a.download='ai-pm-progress.txt';a.click();
+}
+render();
+</script>
+</body>
+</html>
