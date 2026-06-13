@@ -8,7 +8,7 @@
   :root{
     --bg:#faf9f5; --card:#ffffff; --ink:#1a1a18; --muted:#6b6a64; --hint:#9a988f;
     --line:rgba(0,0,0,.12); --line2:rgba(0,0,0,.22);
-    --info:#185fa5; --info-bg:#e6f1fb; --accent:#185fa5;
+    --info:#185fa5; --info-bg:#e6f1fb; --accent:#185fa5; --code-bg:#f1efe8;
     --r-md:8px; --r-lg:12px;
     --blue:#185fa5; --blue-bg:#e6f1fb;
     --teal:#0f6e56; --teal-bg:#e1f5ee;
@@ -21,7 +21,7 @@
     :root{
       --bg:#1f1e1c; --card:#2a2927; --ink:#f2f0ea; --muted:#b0aea6; --hint:#807e76;
       --line:rgba(255,255,255,.14); --line2:rgba(255,255,255,.26);
-      --info:#85b7eb; --info-bg:#0c447c;
+      --info:#85b7eb; --info-bg:#0c447c; --code-bg:#15140f;
       --blue:#85b7eb; --blue-bg:#0c447c;
       --teal:#5dcaa5; --teal-bg:#085041;
       --purple:#afa9ec; --purple-bg:#3c3489;
@@ -34,7 +34,7 @@
   body{margin:0;background:var(--bg);color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     line-height:1.6;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:760px;margin:0 auto;padding:32px 20px 80px}
+  .wrap{max-width:780px;margin:0 auto;padding:32px 20px 80px}
   header h1{font-size:24px;font-weight:600;margin:0 0 4px}
   header p{color:var(--muted);font-size:15px;margin:0 0 24px}
   .progress-label{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;color:var(--muted);margin-bottom:6px}
@@ -59,10 +59,23 @@
   .res a:hover{text-decoration:underline}
   .meta{font-size:12px;color:var(--hint);display:block;margin-top:1px}
   .ty{font-size:10px;text-transform:uppercase;letter-spacing:.04em;padding:1px 6px;border-radius:99px;border:0.5px solid var(--line2);color:var(--muted);margin-left:6px;white-space:nowrap}
-  .proj{background:var(--bg);border:0.5px solid var(--line);border-radius:var(--r-md);padding:13px 15px;margin-top:16px}
-  .proj-h{font-size:13px;font-weight:600}
-  .proj p{font-size:14px;margin:6px 0 0}
-  .chk{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);margin-top:11px;cursor:pointer;user-select:none}
+  .proj{border:0.5px solid var(--line2);border-radius:var(--r-md);padding:0;margin-top:16px;overflow:hidden}
+  .proj-head{background:var(--code-bg);padding:13px 15px;display:flex;align-items:center;gap:8px}
+  .proj-head .ph-title{font-size:14px;font-weight:600}
+  .proj-body{padding:14px 16px}
+  .proj-body p.lead{font-size:14px;margin:0 0 14px;color:var(--muted)}
+  .build-lbl{font-size:11px;color:var(--hint);text-transform:uppercase;letter-spacing:.05em;margin:0 0 8px;font-weight:600}
+  ol.steps{margin:0 0 14px;padding-left:20px}
+  ol.steps li{font-size:14px;margin-bottom:7px}
+  code{background:var(--code-bg);padding:1px 5px;border-radius:4px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
+  pre{background:var(--code-bg);border:0.5px solid var(--line);border-radius:var(--r-md);padding:11px 13px;overflow-x:auto;margin:8px 0 14px}
+  pre code{background:none;padding:0;font-size:12px;line-height:1.5;display:block;white-space:pre}
+  .dod{background:var(--bg);border-left:3px solid;border-radius:0 var(--r-md) var(--r-md) 0;padding:10px 13px;margin-top:6px}
+  .dod .dl{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--hint);font-weight:600;margin-bottom:4px}
+  .dod p{font-size:13.5px;margin:0}
+  .stack{font-size:13px;color:var(--muted);margin:0 0 14px}
+  .stack b{color:var(--ink);font-weight:600}
+  .chk{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);margin-top:14px;cursor:pointer;user-select:none}
   .chk input{width:17px;height:17px;cursor:pointer;accent-color:var(--accent)}
   .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
   .btn{font-size:13px;padding:8px 14px;border:0.5px solid var(--line2);border-radius:var(--r-md);background:transparent;color:var(--ink);cursor:pointer;font-family:inherit}
@@ -74,7 +87,7 @@
 <div class="wrap">
   <header>
     <h1>AI Program Manager — 14-week learning plan</h1>
-    <p>Use-case-based path from senior Agile/program management to an AI PM-adjacent role. All links are free. Progress saves in this browser.</p>
+    <p>Full-code projects for a local VS Code + Python setup. All resource links are free. Progress saves in this browser.</p>
   </header>
 
   <div class="progress-label"><span>Overall progress</span><span id="pct">0%</span></div>
@@ -88,75 +101,153 @@
     <button class="btn" onclick="exportProgress()">⤓ Export progress</button>
   </div>
 
-  <footer>Self-contained · works offline once loaded · no tracking · your ticks live only in this browser.</footer>
+  <footer>Self-contained · works offline once loaded · no tracking · ticks live only in this browser.</footer>
 </div>
 
 <script>
 const M=[
  {n:1,c:"blue",wk:"Weeks 1\u20132",t:"Foundations & prompt engineering",
-  goal:"Build an accurate mental model of LLMs (context, hallucination, cost, temperature) and learn structured prompting.",
+  goal:"Build an accurate mental model of LLMs (context, hallucination, cost, temperature) and learn structured prompting via the API.",
   res:[
    {ty:"course",t:"Anthropic \u2014 Interactive Prompt Engineering Tutorial (9 chapters)",m:"Free \u00b7 hands-on \u00b7 the gold standard",u:"https://github.com/anthropics/prompt-eng-interactive-tutorial"},
-   {ty:"course",t:"DeepLearning.AI \u2014 ChatGPT Prompt Engineering for Developers",m:"Free \u00b7 ~1.5 hrs \u00b7 Andrew Ng + OpenAI",u:"https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/"},
-   {ty:"article",t:"Google \u2014 Prompt Engineering whitepaper (Lee Boonstra)",m:"Article \u00b7 deep but readable",u:"https://www.kaggle.com/whitepaper-prompt-engineering"},
-   {ty:"docs",t:"Anthropic \u2014 Prompt engineering overview (docs)",m:"Reference \u00b7 keep open while you build",u:"https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview"}
+   {ty:"course",t:"DeepLearning.AI \u2014 ChatGPT Prompt Engineering for Developers",m:"Free \u00b7 ~1.5 hrs",u:"https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/"},
+   {ty:"article",t:"Google \u2014 Prompt Engineering whitepaper",m:"Article \u00b7 deep but readable",u:"https://www.kaggle.com/whitepaper-prompt-engineering"},
+   {ty:"docs",t:"Anthropic \u2014 Prompt engineering overview (docs)",m:"Reference \u00b7 keep open while building",u:"https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview"}
   ],
-  proj:"Build a reusable prompt library that turns a rough feature idea into a structured PRD (problem, users, acceptance criteria, risks). Run it on 3 real backlog items and note where it fails."},
+  projTitle:"PRD generator from a feature idea",
+  projLead:"A Python script that takes a one-line feature idea and returns a structured PRD (problem, target users, acceptance criteria, risks, success metrics) \u2014 with a versioned, reusable prompt template.",
+  stack:"<b>Stack:</b> Python 3.10+, the <code>anthropic</code> (or <code>openai</code>) SDK, a <code>.env</code> file for your API key, VS Code.",
+  steps:[
+   "In VS Code, create a project folder. Open a terminal: <code>python -m venv venv</code> then activate it (<code>source venv/bin/activate</code> on Mac).",
+   "Install the SDK and dotenv: <code>pip install anthropic python-dotenv</code>.",
+   "Get an API key from console.anthropic.com. Put it in a <code>.env</code> file as <code>ANTHROPIC_API_KEY=sk-...</code> and add <code>.env</code> to <code>.gitignore</code> so you never commit it.",
+   "Write <code>prd.py</code>: load the key, define a <code>SYSTEM_PROMPT</code> that instructs the model to output a PRD with fixed sections, and a function <code>generate_prd(idea)</code> that calls the API and prints the result.",
+   "Move the system prompt into a separate <code>prompts/prd_v1.txt</code> file and load it from disk \u2014 this is your versioned prompt template. When you improve it, save <code>prd_v2.txt</code> and keep both.",
+   "Run it on 3 real backlog items. For each, note in a <code>FINDINGS.md</code> where the output was wrong, vague, or invented requirements (this becomes your eval material in Module 5)."
+  ],
+  code:"import os\nfrom anthropic import Anthropic\nfrom dotenv import load_dotenv\n\nload_dotenv()\nclient = Anthropic(api_key=os.environ[\"ANTHROPIC_API_KEY\"])\n\nSYSTEM = open(\"prompts/prd_v1.txt\").read()\n\ndef generate_prd(idea: str) -> str:\n    msg = client.messages.create(\n        model=\"claude-sonnet-4-6\",\n        max_tokens=1500,\n        system=SYSTEM,\n        messages=[{\"role\": \"user\", \"content\": idea}],\n    )\n    return msg.content[0].text\n\nif __name__ == \"__main__\":\n    print(generate_prd(\"A dashboard so PMs can see at-risk epics\"))",
+  dod:"You can hand someone a one-line idea and get a consistent, well-structured PRD in seconds, the prompt lives in a versioned file, and FINDINGS.md lists at least 5 concrete failure cases."},
+
  {n:2,c:"teal",wk:"Weeks 3\u20134",t:"AI-in-the-loop workflows",
-  goal:"Map where AI can draft, summarize, route or decide inside your existing PM processes, with humans reviewing instead of starting from zero.",
+  goal:"Map where AI can draft, summarize, route or decide inside your PM processes, with a human reviewing instead of starting from zero.",
   res:[
-   {ty:"video",t:"Andrew Ng \u2014 agentic workflows / applied AI talk",m:"Video \u00b7 framing for applied AI",u:"https://www.youtube.com/watch?v=4pYzYmSdSH4"},
-   {ty:"article",t:"Product School \u2014 Guide to the AI Product Manager",m:"Article \u00b7 role expectations in 2026",u:"https://productschool.com/blog/artificial-intelligence/guide-ai-product-manager"},
+   {ty:"video",t:"Andrew Ng \u2014 agentic workflows / applied AI talk",m:"Video \u00b7 framing",u:"https://www.youtube.com/watch?v=4pYzYmSdSH4"},
+   {ty:"article",t:"Product School \u2014 Guide to the AI Product Manager",m:"Article \u00b7 role expectations",u:"https://productschool.com/blog/artificial-intelligence/guide-ai-product-manager"},
    {ty:"course",t:"DeepLearning.AI \u2014 AI for Everyone (Andrew Ng)",m:"Free \u00b7 business-outcome lens",u:"https://www.deeplearning.ai/courses/ai-for-everyone/"},
-   {ty:"practice",t:"Build it in Claude / ChatGPT directly \u2014 no code needed",m:"Practice \u00b7 use your own standup notes",u:"https://claude.ai"}
+   {ty:"docs",t:"Anthropic \u2014 Working with the Messages API",m:"Reference \u00b7 structured I/O",u:"https://docs.claude.com/en/api/messages"}
   ],
-  proj:"Redesign your weekly status-report process as AI-in-the-loop: feed standup notes + a Jira export, get a draft exec summary with risks flagged. Measure time saved and error rate vs doing it manually."},
+  projTitle:"Status-report generator with human review",
+  projLead:"A script that ingests raw standup notes plus a Jira CSV export and produces a draft executive status summary with risks flagged \u2014 then pauses for you to review and edit before 'sending'.",
+  stack:"<b>Stack:</b> Python, <code>pandas</code> (read the CSV), the LLM SDK, plus a tiny <code>streamlit</code> UI so the human-review step is real.",
+  steps:[
+   "<code>pip install pandas streamlit anthropic python-dotenv</code>.",
+   "Export a Jira board to CSV (or fake one with columns: key, summary, status, assignee, due_date). Load it with <code>pandas.read_csv</code>.",
+   "Write a function that turns the dataframe into a compact text block (only the columns that matter) so you don't blow the context window or token budget.",
+   "Prompt the model to produce: a 3-sentence exec summary, a bulleted progress list, and a 'Risks & blockers' section. Feed it both the standup notes and the Jira text block.",
+   "Build a one-screen Streamlit app: a text area for standup notes, a file uploader for the CSV, a 'Generate draft' button, and \u2014 critically \u2014 an editable text box showing the draft so you approve/edit before copying out. Run with <code>streamlit run app.py</code>.",
+   "Track metrics in a log: time-to-draft vs your old manual time, and how many edits you had to make. That edit count is an early eval signal."
+  ],
+  code:"import pandas as pd\nfrom anthropic import Anthropic\nimport os; from dotenv import load_dotenv\nload_dotenv(); client = Anthropic()\n\ndef jira_to_text(csv_path):\n    df = pd.read_csv(csv_path)\n    cols = [\"key\",\"summary\",\"status\",\"assignee\",\"due_date\"]\n    return df[cols].to_string(index=False)\n\ndef draft_status(notes, csv_path):\n    context = jira_to_text(csv_path)\n    prompt = f\"Standup notes:\\n{notes}\\n\\nJira board:\\n{context}\\n\\nWrite an exec status update with a Risks section.\"\n    msg = client.messages.create(model=\"claude-sonnet-4-6\",\n        max_tokens=1200, messages=[{\"role\":\"user\",\"content\":prompt}])\n    return msg.content[0].text",
+  dod:"Drop in notes + a CSV, get a usable draft you lightly edit, the human-review step is enforced in the UI, and you've logged time saved on at least 2 real weekly reports."},
+
  {n:3,c:"purple",wk:"Weeks 5\u20137",t:"RAG \u2014 grounding AI in your data",
-  goal:"Understand why LLMs don't know your private data, and how retrieval grounds answers in your docs with citations. Learn RAG vs fine-tuning vs prompting.",
+  goal:"Understand why LLMs don't know your private data, and build retrieval that grounds answers in your docs with citations.",
   res:[
-   {ty:"course",t:"DeepLearning.AI \u2014 LangChain: Chat with Your Data",m:"Free \u00b7 loaders, chunking, vector stores, retrieval",u:"https://www.deeplearning.ai/short-courses/langchain-chat-with-your-data/"},
-   {ty:"course",t:"DeepLearning.AI \u2014 Building & Evaluating Advanced RAG",m:"Free \u00b7 sentence-window, auto-merging, eval",u:"https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/"},
-   {ty:"article",t:"7 free RAG courses round-up (agentic, multimodal, KG)",m:"Article \u00b7 pick one deeper dive",u:"https://www.turingpost.com/p/7-free-courses-to-master-rag"},
-   {ty:"article",t:"AI PM interview Q&A \u2014 RAG vs fine-tuning vs prompting",m:"Article \u00b7 how to talk about it",u:"https://www.institutepm.com/knowledge-hub/ai-product-manager-interview-questions"}
+   {ty:"course",t:"DeepLearning.AI \u2014 LangChain: Chat with Your Data",m:"Free \u00b7 loaders, chunking, vector stores",u:"https://www.deeplearning.ai/short-courses/langchain-chat-with-your-data/"},
+   {ty:"course",t:"DeepLearning.AI \u2014 Building & Evaluating Advanced RAG",m:"Free \u00b7 retrieval quality + eval",u:"https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/"},
+   {ty:"article",t:"7 free RAG courses round-up",m:"Article \u00b7 pick one deeper dive",u:"https://www.turingpost.com/p/7-free-courses-to-master-rag"},
+   {ty:"article",t:"AI PM interview Q&A \u2014 RAG vs fine-tuning vs prompting",m:"Article \u00b7 how to articulate it",u:"https://www.institutepm.com/knowledge-hub/ai-product-manager-interview-questions"}
   ],
-  proj:"Build a 'project knowledge assistant' over your own docs (charters, retros, risk registers) that answers 'what blockers recurred last quarter?' with citations. Document where retrieval pulls the wrong context."},
+  projTitle:"Project knowledge assistant (RAG over your docs)",
+  projLead:"Ask 'what blockers recurred last quarter?' across your charters, retros and risk registers, and get an answer grounded in those documents with citations pointing back to the source file.",
+  stack:"<b>Stack:</b> Python, <code>langchain</code>, a local vector store (<code>chromadb</code>), an embedding model, the LLM SDK. Everything runs on your machine.",
+  steps:[
+   "<code>pip install langchain langchain-community chromadb anthropic python-dotenv pypdf</code>.",
+   "Put 5\u201310 of your own docs (retros, charters, risk logs \u2014 PDF or .txt) into a <code>docs/</code> folder.",
+   "Load and split: use a document loader, then a text splitter (~800-char chunks, 100 overlap). Understand why chunk size matters \u2014 too big wastes tokens, too small loses context.",
+   "Embed the chunks and store them in Chroma. This is your retrieval index; it persists to disk so you build it once.",
+   "Build the query step: embed the question, retrieve the top-k chunks, stuff them into a prompt that says 'answer ONLY from this context and cite the source filename', then call the LLM.",
+   "Deliberately ask a question your docs can't answer, and confirm it says 'not found' rather than hallucinating. Log every case where retrieval pulled the wrong chunk \u2014 that's your RAG eval set."
+  ],
+  code:"from langchain_community.document_loaders import DirectoryLoader\nfrom langchain.text_splitter import RecursiveCharacterTextSplitter\nfrom langchain_community.vectorstores import Chroma\n# embeddings + LLM wiring per the DeepLearning.AI course\n\ndocs = DirectoryLoader(\"docs/\").load()\nchunks = RecursiveCharacterTextSplitter(\n    chunk_size=800, chunk_overlap=100).split_documents(docs)\n\ndb = Chroma.from_documents(chunks, embedding=EMB, persist_directory=\"./db\")\n\ndef ask(q, k=4):\n    hits = db.similarity_search(q, k=k)\n    context = \"\\n\\n\".join(f\"[{h.metadata['source']}] {h.page_content}\" for h in hits)\n    # send context + q to the LLM, instruct it to cite sources\n    return answer_with_citations(q, context)",
+  dod:"Real questions over your own docs return correct, cited answers; out-of-scope questions are refused rather than fabricated; and you have a logged list of retrieval failures with the wrong chunk identified."},
+
  {n:4,c:"coral",wk:"Weeks 8\u201310",t:"AI agents & automation",
-  goal:"Agents plan, use tools and execute multi-step goals. Learn single- vs multi-agent patterns, tool orchestration, and \u2014 crucially \u2014 when NOT to use an agent.",
+  goal:"Agents plan, use tools and run multi-step goals. Learn single- vs multi-agent patterns, tool orchestration, and when NOT to use an agent.",
   res:[
    {ty:"course",t:"DeepLearning.AI \u2014 AI Agents in LangGraph (Harrison Chase)",m:"Free \u00b7 build an agent from scratch",u:"https://www.deeplearning.ai/short-courses/ai-agents-in-langgraph/"},
-   {ty:"course",t:"DeepLearning.AI \u2014 Multi AI Agent Systems with crewAI",m:"Free \u00b7 roles, delegation, orchestration",u:"https://www.deeplearning.ai/short-courses/multi-ai-agent-systems-with-crewai/"},
+   {ty:"course",t:"DeepLearning.AI \u2014 Multi AI Agent Systems with crewAI",m:"Free \u00b7 roles, delegation",u:"https://www.deeplearning.ai/short-courses/multi-ai-agent-systems-with-crewai/"},
    {ty:"article",t:"Anthropic \u2014 Building effective agents",m:"Article \u00b7 patterns & when to keep it simple",u:"https://www.anthropic.com/research/building-effective-agents"},
    {ty:"docs",t:"Anthropic \u2014 Tool use (function calling) docs",m:"Reference \u00b7 how agents act",u:"https://docs.claude.com/en/docs/build-with-claude/tool-use"}
   ],
-  proj:"Build an agent that triages incoming feature requests/feedback: clusters them, tags by theme, drafts a prioritization view. Define explicit guardrails and escalation-to-human rules."},
- {n:5,c:"amber",wk:"Weeks 11\u201312",t:"AI evals \u2014 the senior differentiator",
-  goal:"Know how to tell if an AI output is actually good: rubrics, edge-case sets, benchmarks, and LLM-as-judge. The skill that separates juniors from seniors.",
-  res:[
-   {ty:"course",t:"Anthropic \u2014 Prompt Evaluations course",m:"Free \u00b7 production-grade eval writing",u:"https://github.com/anthropics/courses/tree/master/prompt_evaluations"},
-   {ty:"article",t:"AI PM Skill & Roadmap 2026 \u2014 why evals are the bottleneck",m:"Article \u00b7 the senior framing",u:"https://medium.com/agileinsider/ai-product-manager-skill-roadmap-2026-5896f61c3cae"},
-   {ty:"docs",t:"Anthropic \u2014 Develop tests / define success criteria",m:"Reference \u00b7 build a test set",u:"https://docs.claude.com/en/docs/test-and-evaluate/develop-tests"},
-   {ty:"practice",t:"Apply it: write evals for your Module 1 & 3 projects",m:"Practice \u00b7 reuse what you built",u:"https://claude.ai"}
+  projTitle:"Feedback-triage agent",
+  projLead:"An agent that ingests a batch of raw feature requests, clusters them by theme, tags each with a category, and drafts a prioritization view \u2014 with explicit guardrails and an escalate-to-human rule for anything ambiguous.",
+  stack:"<b>Stack:</b> Python, <code>langgraph</code> (or the SDK's tool-use directly), the LLM SDK. Start single-agent; add a second agent only if it earns its place.",
+  steps:[
+   "<code>pip install langgraph anthropic python-dotenv</code>. Prepare ~30 fake or real feedback items in a list.",
+   "Define tools as plain Python functions the agent can call: <code>categorize(text)</code>, <code>cluster(items)</code>, <code>score_priority(item)</code>. Each returns structured data.",
+   "Wire a single agent that loops: read item \u2192 pick a tool \u2192 act \u2192 decide next step, until all items are processed. Use the LangGraph state graph so the flow is inspectable.",
+   "Add guardrails: a confidence check so that if the model is unsure of a category, the item is routed to an <code>escalate_to_human</code> list instead of being force-tagged.",
+   "Output a markdown table: theme \u2192 count \u2192 example \u2192 suggested priority. Print the escalation list separately.",
+   "Write a short note in your repo on a case where an agent was overkill and a single prompt would've done \u2014 senior judgment, and a common interview question."
   ],
-  proj:"Write an eval suite for your PRD generator (M1) and knowledge assistant (M3): define a rubric, build a 20-case test set, gate 'release' on a passing score. Document one real failure you caught."},
+  code:"# Tools the agent can call (kept simple + testable)\ndef categorize(text: str) -> dict:\n    # LLM call returns {category, confidence}\n    ...\n\ndef triage(items: list[str]):\n    results, escalate = [], []\n    for it in items:\n        r = categorize(it)\n        if r[\"confidence\"] < 0.6:\n            escalate.append(it)        # guardrail: hand to human\n        else:\n            results.append({**r, \"text\": it})\n    return results, escalate",
+  dod:"A batch of feedback comes out clustered, tagged and prioritized into a clean table; low-confidence items are escalated, not guessed; and your repo explains one case where an agent was the wrong tool."},
+
+ {n:5,c:"amber",wk:"Weeks 11\u201312",t:"AI evals \u2014 the senior differentiator",
+  goal:"Measure whether AI output is actually good: rubrics, edge-case sets, and LLM-as-judge. The skill that separates juniors from seniors.",
+  res:[
+   {ty:"course",t:"Anthropic \u2014 Prompt Evaluations course",m:"Free \u00b7 production eval writing",u:"https://github.com/anthropics/courses/tree/master/prompt_evaluations"},
+   {ty:"article",t:"AI PM Skill & Roadmap 2026 \u2014 why evals are the bottleneck",m:"Article \u00b7 senior framing",u:"https://medium.com/agileinsider/ai-product-manager-skill-roadmap-2026-5896f61c3cae"},
+   {ty:"docs",t:"Anthropic \u2014 Develop tests / success criteria",m:"Reference \u00b7 build a test set",u:"https://docs.claude.com/en/docs/test-and-evaluate/develop-tests"},
+   {ty:"practice",t:"Apply it: evals for your Module 1 & 3 projects",m:"Practice \u00b7 reuse what you built",u:"https://claude.ai"}
+  ],
+  projTitle:"Eval suite for your own tools",
+  projLead:"A test harness that scores your PRD generator (M1) and knowledge assistant (M3) against a rubric on a fixed set of cases, and fails the build if quality drops below a threshold \u2014 just like a CI gate.",
+  stack:"<b>Stack:</b> Python, <code>pytest</code>, a JSON/CSV of test cases, the LLM SDK acting as 'judge'.",
+  steps:[
+   "Build a dataset of 20 cases: for the PRD tool, 20 feature ideas with notes on what a good PRD must contain; for RAG, 20 questions with the correct source doc.",
+   "Define a rubric: e.g. PRD must have all 5 sections, no invented requirements, measurable acceptance criteria. Express each as a yes/no check.",
+   "Write an LLM-as-judge function: send the model output + the rubric to a fresh LLM call and ask it to score each criterion and return JSON. Understand the bias risk in self-grading.",
+   "Add deterministic checks too (regex/string tests for structure) \u2014 cheaper and more reliable than the judge for some criteria. Mix both.",
+   "Wrap it in pytest so <code>pytest</code> runs the whole suite and prints a pass rate. Set a gate: fail if pass rate < 80%.",
+   "Change your Module 1 prompt slightly and re-run \u2014 watch the score move. Document one regression the suite caught that you'd have missed by eye."
+  ],
+  code:"import json\nfrom anthropic import Anthropic\nclient = Anthropic()\n\nRUBRIC = [\"Has all 5 sections\", \"No invented requirements\",\n          \"Acceptance criteria are measurable\"]\n\ndef judge(output: str) -> dict:\n    prompt = (f\"Score this PRD against each criterion as pass/fail. \"\n              f\"Return JSON only.\\nCriteria: {RUBRIC}\\n\\nPRD:\\n{output}\")\n    r = client.messages.create(model=\"claude-sonnet-4-6\",\n        max_tokens=400, messages=[{\"role\":\"user\",\"content\":prompt}])\n    return json.loads(r.content[0].text)\n\n# test_prd.py  ->  run with: pytest\ndef test_pass_rate():\n    scores = [judge(generate_prd(c)) for c in CASES]\n    rate = pass_fraction(scores)\n    assert rate >= 0.8",
+  dod:"<code>pytest</code> runs a 20-case suite for two of your tools, returns a pass rate, gates on a threshold, and you can point to one regression the suite caught after a prompt change."},
+
  {n:6,c:"pink",wk:"Weeks 13\u201314",t:"Packaging, economics & the pivot",
   goal:"Token-cost-aware decisions, responsible-AI tradeoffs, and turning four projects into a portfolio and a sharp interview narrative.",
   res:[
    {ty:"article",t:"50+ AI PM interview questions & answers (2026)",m:"Article \u00b7 drill these",u:"https://www.institutepm.com/knowledge-hub/ai-product-manager-interview-questions"},
-   {ty:"article",t:"Ultimate 2026 roadmap to becoming an AI PM",m:"Article \u00b7 portfolio & positioning",u:"https://thedigilearners.com/blogs/ultimate-2026-roadmap-becoming-ai-product-manager/"},
+   {ty:"article",t:"Ultimate 2026 roadmap to becoming an AI PM",m:"Article \u00b7 positioning",u:"https://thedigilearners.com/blogs/ultimate-2026-roadmap-becoming-ai-product-manager/"},
    {ty:"article",t:"AI skills recruiters look for in 2026",m:"Article \u00b7 resume keywords",u:"https://agilemania.com/ai-skills-for-resume"},
-   {ty:"practice",t:"Publish your portfolio free \u2014 GitHub Pages or Notion",m:"Practice \u00b7 one page, four projects",u:"https://pages.github.com/"}
+   {ty:"practice",t:"Publish your portfolio \u2014 GitHub Pages (you've done this!)",m:"Practice \u00b7 one page, four projects",u:"https://pages.github.com/"}
   ],
-  proj:"Assemble a portfolio page: each project as problem \u2192 approach \u2192 tradeoffs \u2192 measured impact. Write the 3-minute spoken version and rehearse system-design questions out loud."}
+  projTitle:"Portfolio page + interview narrative",
+  projLead:"One public page (reuse your GitHub Pages setup) presenting all four projects as problem \u2192 approach \u2192 tradeoffs \u2192 measured impact, plus a rehearsed 3-minute spoken version of each.",
+  stack:"<b>Stack:</b> Your existing GitHub repo + Pages, a README per project, and screenshots/GIFs of the tools running.",
+  steps:[
+   "Push each of the four project repos to GitHub with a clear README: what problem, your approach, key tradeoffs (RAG vs fine-tune, agent vs prompt, cost vs latency), and the measured result.",
+   "Add a token-cost note to each: roughly what an API call costs and how you'd control spend at scale \u2014 this signals AI product-economics literacy.",
+   "Build a single index page linking all four, framed for your target role. Reuse the GitHub Pages flow you already set up.",
+   "For each project, write and rehearse a 3-minute spoken walkthrough: the problem, one hard decision you made, and the outcome. Record yourself once.",
+   "Drill the 50+ interview questions, focusing on RAG vs fine-tuning, agent design, and how you'd evaluate an AI feature before trusting it in production.",
+   "Update your LinkedIn and resume with the project links and the keywords from the recruiter article."
+  ],
+  code:"# Suggested repo layout for your portfolio\nai-portfolio/\n  index.html            # links to all four, role-framed\n  prd-generator/        # Module 1\n    README.md           # problem -> approach -> tradeoffs -> impact\n  status-reporter/      # Module 2\n  knowledge-assistant/  # Module 3 (RAG)\n  feedback-triage/      # Module 4 (agent)\n  evals/                # Module 5 (cross-cutting)",
+  dod:"A public portfolio page links four working projects each with a results-focused README; you can deliver a 3-minute walkthrough of any one from memory; and your LinkedIn/resume reflect the new positioning."}
 ];
 
 let TOTAL=0; M.forEach(m=>TOTAL+=m.res.length+1);
-const KEY="aiPmPlan14wk_v1";
+const KEY="aiPmPlan14wk_v2";
 let done={}; try{done=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){done={}}
 let active=1;
 
 function save(){try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}}
 function rid(mi,k){return mi+":"+k}
 function moduleCount(m){let c=0;for(let i=0;i<m.res.length;i++)if(done[rid(m.n,'r'+i)])c++;if(done[rid(m.n,'proj')])c++;return c;}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 function renderTabs(){
  const r=document.getElementById('tabs');r.innerHTML='';
@@ -182,6 +273,7 @@ function render(){
       '<div style="flex:1"><a href="'+x.u+'" target="_blank" rel="noopener">'+x.t+'</a>'+
       '<span class="ty">'+x.ty+'</span><span class="meta">'+x.m+'</span></div></div>';
  });
+ let stepsHtml=''; m.steps.forEach(s=>stepsHtml+='<li>'+s+'</li>');
  const pk=done[rid(m.n,'proj')]?'checked':'';
  const card=document.createElement('div');card.className='mod';
  card.innerHTML=
@@ -189,8 +281,19 @@ function render(){
   '<div style="flex:1"><div class="mtitle-row"><span class="mtitle">'+m.t+'</span><span class="wk">'+m.wk+'</span></div>'+
   '<p class="goal">'+m.goal+'</p></div></div>'+
   '<div class="sec-lbl">Tutorials, videos & articles</div>'+rh+
-  '<div class="proj"><div class="proj-h">\u25b6 Mini-project</div><p>'+m.proj+'</p>'+
-  '<label class="chk"><input type="checkbox" '+pk+' onchange="mark('+m.n+',\'proj\',this.checked)"> Mark project complete</label></div>';
+  '<div class="proj">'+
+    '<div class="proj-head"><span style="color:'+fg+'">\u25b6</span><span class="ph-title">Mini-project: '+m.projTitle+'</span></div>'+
+    '<div class="proj-body">'+
+      '<p class="lead">'+m.projLead+'</p>'+
+      '<p class="stack">'+m.stack+'</p>'+
+      '<div class="build-lbl">Build it step by step</div>'+
+      '<ol class="steps">'+stepsHtml+'</ol>'+
+      '<div class="build-lbl">Starter code</div>'+
+      '<pre><code>'+esc(m.code)+'</code></pre>'+
+      '<div class="dod" style="border-left-color:'+fg+'"><div class="dl">Definition of done</div><p>'+m.dod+'</p></div>'+
+      '<label class="chk"><input type="checkbox" '+pk+' onchange="mark('+m.n+',\'proj\',this.checked)"> Mark project complete</label>'+
+    '</div>'+
+  '</div>';
  box.appendChild(card);
  update();
 }
@@ -206,7 +309,7 @@ function exportProgress(){
  M.forEach(m=>{
   lines.push('Module '+m.n+': '+m.t+' ('+moduleCount(m)+'/'+(m.res.length+1)+')');
   m.res.forEach((x,i)=>lines.push('  ['+(done[rid(m.n,'r'+i)]?'x':' ')+'] '+x.t));
-  lines.push('  ['+(done[rid(m.n,'proj')]?'x':' ')+'] PROJECT: '+m.proj);
+  lines.push('  ['+(done[rid(m.n,'proj')]?'x':' ')+'] PROJECT: '+m.projTitle);
   lines.push('');
  });
  const blob=new Blob([lines.join('\n')],{type:'text/plain'});
